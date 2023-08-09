@@ -4,17 +4,10 @@
 # Помогите Кате отгадать задуманные Петей числа.
 
 s = int(input('Введите сумму чисел(S): '))
-p = int(input('Введите сумму чисел(P): '))
+p = int(input('Введите произведение чисел(P): '))
 x = 1
 y = 1
-while p/x != y and x+y != s:
-    if p/x == y and x+y == s:
-        print('X = ', x, 'Y = ', y)
-    else:
-        x += 1
-        while y != x:
-            if p/y == x and x+y == s:
-                print('X = ', x, 'Y = ', y)
-            else:
-                y += 1
-print('X = ', x, 'Y = ', y)
+for x in range(s):
+    for y in range(s):
+        if x+y == s and x*y==p:
+            print('X = ', x, 'Y = ', y)
