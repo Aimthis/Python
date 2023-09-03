@@ -7,3 +7,8 @@
 # Input: 5 -> 1 3 3 3 4
 # Output: 1 3 3 3 1
 
+userInput = list(map(int, input().split()))
+min = min(s)
+max = max(s)
+result = [mi if i == ma else i for i in s]
+print(result)
