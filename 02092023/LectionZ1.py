@@ -11,7 +11,7 @@
 # filter
 # def where(f, col):
 #     return [x for x in col if f(x)]
-
+ 
 
 data = [1, 2, 3, 5, 8, 15, 23, 38]
 res = map(int, data)
