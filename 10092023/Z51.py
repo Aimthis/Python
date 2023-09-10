@@ -26,9 +26,9 @@ def same_by(characteristic, object):
         if first != value:
             return False
     return True
+#    return len(set(map(characteristic, object)))
 
-
-values = [7, 9, 15, 11]
+values = [7, 2, 15, 11]
 if same_by(lambda x: x % 2, values):
     print("same")
 else:
