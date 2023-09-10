@@ -7,9 +7,29 @@
 # должна возвращать True. Аргумент characteristic - это
 # функция, которая принимает объект и вычисляет его
 # характеристику.
-# Ввод: Вывод:
-# values = [0, 2, 10, 6] same
+# Ввод:
+# values = [0, 2, 10, 6]
 # if same_by(lambda x: x % 2, values):
 # print(‘same’)
 # else:
 # print(‘different’)
+# Вывод: same
+def same_by(characteristic, object):
+    if len(object) == 0:
+        return True
+    someValues = list(map(characteristic, object))
+    first = someValues[0]
+
+#    print(f"someValues = {someValues}")
+
+    for value in someValues:
+        if first != value:
+            return False
+    return True
+
+
+values = [7, 9, 15, 11]
+if same_by(lambda x: x % 2, values):
+    print("same")
+else:
+    print("different")
