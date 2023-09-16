@@ -56,10 +56,11 @@ def edit_data():
     print("Введите в поиск заменяемые данные")
     old_data = search_line()
     choice = 0
-    while choice != 1 or choice !=5:
+    while choice != 1:
         print(old_data)
         print('Для продолжения нажмите 1, для отмены 5')
-        choice = input('Хотите изменить эти данные?')
+        choice = int(input('Хотите изменить эти данные?'))
+        if choice == 5: return
     if choice == 5: return
     print("Введите новые данные")
     new_data = input_data()
@@ -78,13 +79,24 @@ def edit_data():
 
 
 def search_line():
+    choice = 0
     search = input("Введите данные для поиска: ").capitalize()
+    result = 'Нет подходящих записей'
     with open("phone_book.csv", "r", encoding="utf-8") as file:
         data = file.read().split("\n\n")[:-1]
         for line in data:
             if search in line:
                 print(f'Найдена следующая запись:\n {line}')
-                                
+                while choice != 1:
+                    result = line
+                    choice = int(input('Вы искали эти данные? Нажмите "1" чтобы продолжить поиск или "5" чтобы закончить: '))
+                    if choice == 5:
+                        return result
+                    if choice == 1:
+                        result = 'Нет подходящих записей'
+    clear()
+    return result
+
 
 def user_interface():
     choice = 0
@@ -103,15 +115,15 @@ def user_interface():
             case 1:
                 clear()
                 adding_to_pb()
-                choice = input("Данные внесены. Для продолжения нажмите любую кнопку.")
+                choice = input("Данные внесены. Для продолжения нажмите ввод.")
             case 2:
                 clear()
                 print_data()
-                choice = input("Для продолжения нажмите любую кнопку.")
+                choice = input("Для продолжения нажмите ввод.")
             case 3:
                 clear()
                 print(search_line() + "\n")
-                choice = input("Для продолжения нажмите любую кнопку.")
+                choice = input("Для продолжения нажмите ввод.")
             case 4:
                 clear()
                 edit_data()
