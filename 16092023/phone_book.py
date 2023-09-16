@@ -41,6 +41,7 @@ def input_data():
     string_of_data = f"{surname} {name} {patronymic}: {phone} \n {address}\n\n"
     return string_of_data
 
+
 def adding_to_pb():
     with open("phone_book.csv", "a", encoding="utf-8") as file:
         file.write(input_data())
@@ -53,54 +54,124 @@ def print_data():
 
 def edit_data():
     clear()
-    print("Введите в поиск заменяемые данные")
+    print("Введите в поиск заменяемые данные(достаточно первых трех букв)")
     old_data = search_line()
     choice = 0
+    clear()
     while choice != 1:
         print(old_data)
-        print('Для продолжения нажмите 1, для отмены 5')
-        choice = int(input('Хотите изменить эти данные?'))
-        if choice == 5: return
-    if choice == 5: return
+        choice = int(
+            input(
+                "Хотите изменить эти данные?\nДля продолжения нажмите 1, для отмены 5:"
+            )
+        )
+        if choice == 5:
+            return
+    if choice == 5:
+        return
+    choice = 0
+    clear()
     print("Введите новые данные")
     new_data = input_data()
-    print(new_data)
-    choice = input('')
-    with open("phone_book.csv", "r", encoding="utf-8") as file:
-        old_total_data = file.read().split("\n\n")[:-1]
+    with open("phone_book.csv", "r", encoding="utf-8") as file1, open(
+        "test.txt", "w", encoding="utf-8"
+    ) as file2:
+        old_total_data = file1.read().split("\n\n")[:-1]
         for line in old_total_data:
             if line == old_data:
-                new_total_data =+ new_data
+                file2.write(new_data)
             else:
-                new_total_data =+ line
+                file2.write(line + "\n\n")
+    while choice != 1:
+        print(
+            "Внесенные изменения сохранены в отдельный файл test.txt\n 1-оставить изменения в этом файле\n 2-внести изменения в существующую базу данных и удалить отдельный файл"
+        )
+        choice = int(input("Введите выбор: "))
+        if choice == 1:
+            return
+        if choice == 2:
+            path1 = os.path.join(
+                os.path.abspath(os.path.dirname(__file__)), "phone_book.csv"
+            )
+            os.remove(path1)
+            path2 = os.path.join(os.path.abspath(os.path.dirname(__file__)), "test.txt")
+            os.rename(path2, path1)
+            return
 
-    with open ('test.txt', 'w') as file:
-        file.write(new_total_data)
+
+def delete_data():
+    clear()
+    print("Введите в поиск удаляемые данные(достаточно первых трех букв)")
+    old_data = search_line()
+    choice = 0
+    clear()
+    while choice != 1:
+        print(old_data)
+        choice = int(
+            input(
+                "Хотите удалить эти данные?\nДля продолжения нажмите 1, для отмены 5:"
+            )
+        )
+        if choice == 5:
+            return
+    if choice == 5:
+        return
+    choice = 0
+    clear()
+    with open("phone_book.csv", "r", encoding="utf-8") as file1, open(
+        "test.txt", "w", encoding="utf-8"
+    ) as file2:
+        old_total_data = file1.read().split("\n\n")[:-1]
+        for line in old_total_data:
+            if line == old_data:
+                file2.write('')
+            else:
+                file2.write(line + "\n\n")
+    while choice != 1:
+        print(
+            "Внесенные изменения сохранены в отдельный файл test.txt\n 1-оставить изменения в этом файле\n 2-внести изменения в существующую базу данных и удалить отдельный файл"
+        )
+        choice = int(input("Введите выбор: "))
+        if choice == 1:
+            return
+        if choice == 2:
+            path1 = os.path.join(
+                os.path.abspath(os.path.dirname(__file__)), "phone_book.csv"
+            )
+            os.remove(path1)
+            path2 = os.path.join(os.path.abspath(os.path.dirname(__file__)), "test.txt")
+            os.rename(path2, path1)
+            return
 
 
 def search_line():
     choice = 0
     search = input("Введите данные для поиска: ").capitalize()
-    result = 'Нет подходящих записей'
+    result = "Нет подходящих записей"
     with open("phone_book.csv", "r", encoding="utf-8") as file:
         data = file.read().split("\n\n")[:-1]
         for line in data:
             if search in line:
-                print(f'Найдена следующая запись:\n {line}')
+                print(f"Найдена следующая запись:\n {line}")
                 while choice != 1:
                     result = line
-                    choice = int(input('Вы искали эти данные? Нажмите "1" чтобы продолжить поиск или "5" чтобы закончить: '))
-                    if choice == 5:
-                        return result
+                    choice = int(
+                        input(
+                            'Вы искали эти данные? Нажмите "5"(нет) чтобы продолжить поиск или "1"(да) чтобы закончить: '
+                        )
+                    )
                     if choice == 1:
-                        result = 'Нет подходящих записей'
+                        return result
+                    if choice == 5:
+                        result = "Нет подходящих записей"
+                        break
     clear()
     return result
 
 
 def user_interface():
     choice = 0
-    while choice != 5:
+    while choice != 6:
         clear()
         print(
             """Выберите действие:
@@ -108,7 +179,8 @@ def user_interface():
                     2 - Вывод данных
                     3 - Поиск данных
                     4 - Изменение данных
-                    5 - Выход"""
+                    5 - Удаление данных
+                    6 - Выход"""
         )
         choice = int(input("номер операции: "))
         match (choice):
@@ -128,6 +200,9 @@ def user_interface():
                 clear()
                 edit_data()
             case 5:
+                clear()
+                delete_data()
+            case 6:
                 clear()
                 print("Досвидания.")
 
