@@ -55,19 +55,24 @@ def edit_data():
     clear()
     print("Введите в поиск заменяемые данные")
     old_data = search_line()
-    a = 0
-    while a != 1 or a !=5:
+    choice = 0
+    while choice != 1 or choice !=5:
         print(old_data)
         print('Для продолжения нажмите 1, для отмены 5')
-        a = input('Хотите изменить эти данные?')
-    if a == 5: return
+        choice = input('Хотите изменить эти данные?')
+    if choice == 5: return
     print("Введите новые данные")
     new_data = input_data()
     print(new_data)
-    a = input('')
+    choice = input('')
     with open("phone_book.csv", "r", encoding="utf-8") as file:
-        old_total_data = file
-    new_total_data = old_total_data.writelines(f'{old_data}', f'{new_data}', 1)
+        old_total_data = file.read().split("\n\n")[:-1]
+        for line in old_total_data:
+            if line == old_data:
+                new_total_data =+ new_data
+            else:
+                new_total_data =+ line
+
     with open ('test.txt', 'w') as file:
         file.write(new_total_data)
 
@@ -78,8 +83,8 @@ def search_line():
         data = file.read().split("\n\n")[:-1]
         for line in data:
             if search in line:
-                return line
-
+                print(f'Найдена следующая запись:\n {line}')
+                                
 
 def user_interface():
     choice = 0
