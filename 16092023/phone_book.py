@@ -5,38 +5,74 @@
 # Использование функций. Ваша программа не должна быть линейной
 import os
 import shutil
-def Vvod_imeni ():
-    return input('Введите имя: ').capitalize
-def Vvod_familii ():
-    return input('Введите фамилию: ').capitalize
-def Vvod_otchestva ():
-    return input('Введите отчество: ').capitalize
-def Vvod_telephona ():
-    return input('Введите номер телефона: ').capitalize
-def Vvod_adressa ():
-    return input('Введите номер адрес: ').capitalize
-def input_data ():
-    name = Vvod_imeni
-    patronymic = Vvod_otchestva
-    surname = Vvod_familii
-    phone = Vvod_telephona
-    address = Vvod_adressa
+clear = lambda: os.system('cls')
+clear()
 
-    with open('phone_book.csv', 'a', encoding='utf-8') as file:
-        print(file)
-        file.write(f'{name} {patronymic} {surname}: {phone} \n {address}\n\n')
+def Vvod_imeni():
+    return input("Введите имя: ").capitalize()
+
+
+def Vvod_familii():
+    return input("Введите фамилию: ").capitalize()
+
+
+def Vvod_otchestva():
+    return input("Введите отчество: ").capitalize()
+
+
+def Vvod_telephona():
+    return input("Введите номер телефона: ")
+
+
+def Vvod_adressa():
+    return input("Введите адрес: ").capitalize()
+
+def input_data():
+    surname = Vvod_familii()
+    name = Vvod_imeni()
+    patronymic = Vvod_otchestva()
+    phone = Vvod_telephona()
+    address = Vvod_adressa()
+
+    with open("phone_book.csv", "a", encoding="utf-8") as file:
+        file.write(f"{surname} {name} {patronymic}: {phone} \n {address}\n\n")
 
 def print_data():
-    with open('phone_book.csv', 'r', encoding='utf-8') as file:
+    with open("phone_book.csv", "r", encoding="utf-8") as file:
         print(file.read())
 
-def search_line ():
-    search = input('Введите данные для поиска: ').capitalize
-    with open('phone_book.csv', 'r', encoding='utf-8') as file:
-        data = file.read().split('\n\n')[:-1]
-        print(data)
+def search_line():
+    search = input("Введите данные для поиска: ").capitalize()
+    with open("phone_book.csv", "r", encoding="utf-8") as file:
+        data = file.read().split("\n\n")[:-1]
         for line in data:
             if search in line:
-                print(line)
+                print(line + '\n')
 
-input_data()
+def user_interface():
+    choice = 0
+    while choice != 4:
+        clear()
+        print('''Выберите действие:
+                    1 - Запись данных
+                    2 - Вывод данных
+                    3 - Поиск данных
+                    4 - Выход''')
+        choice = int(input('номер операции: '))
+        match(choice):
+            case 1:
+                clear()
+                input_data()
+                choice = input('Данные внесены. Для продолжения нажмите любую кнопку.')
+            case 2: 
+                clear()
+                print_data()
+                choice = input('Для продолжения нажмите любую кнопку.')
+            case 3: 
+                clear()
+                search_line()
+                choice = input('Для продолжения нажмите любую кнопку.')
+            case 4:
+                clear()
+                print('Досвидания.')
+user_interface()
